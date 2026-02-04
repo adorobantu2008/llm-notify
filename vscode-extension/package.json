@@ -1,0 +1,139 @@
+{
+  "name": "llm-notify-vscode",
+  "displayName": "LLM Notify - Claude Code + Codex Monitor",
+  "description": "Get notified when Claude Code or Codex finishes generating responses",
+  "version": "1.0.1",
+  "publisher": "llm-notify",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Productivity",
+    "Other"
+  ],
+  "keywords": [
+    "llm",
+    "codex",
+    "claude",
+    "notifications",
+    "productivity",
+    "ai"
+  ],
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#0b0d12",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "llm-notify.testNotification",
+        "title": "LLM Notify: Test Notification"
+      },
+      {
+        "command": "llm-notify.openDashboard",
+        "title": "LLM Notify: Open Dashboard"
+      },
+      {
+        "command": "llm-notify.toggleEnabled",
+        "title": "LLM Notify: Toggle Notifications"
+      },
+      {
+        "command": "llm-notify.dismissAlarm",
+        "title": "LLM Notify: Dismiss Alarm"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "llm-notify.dismissAlarm",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l",
+        "when": "editorTextFocus || terminalFocus"
+      }
+    ],
+    "configuration": {
+      "title": "LLM Notify",
+      "properties": {
+        "llmNotify.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable notifications when Claude Code completes"
+        },
+        "llmNotify.hubUrl": {
+          "type": "string",
+          "default": "http://localhost:3847",
+          "description": "URL of the LLM Notify Hub server"
+        },
+        "llmNotify.showVSCodeNotification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show VS Code notification when Claude Code completes"
+        },
+        "llmNotify.detectClaudeCode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Monitor terminal for Claude Code completion"
+        },
+        "llmNotify.detectCodex": {
+          "type": "boolean",
+          "default": true,
+          "description": "Monitor terminal for Codex completion"
+        },
+        "llmNotify.claudePromptPattern": {
+          "type": "string",
+          "default": "❯\\s",
+          "description": "Regex for Claude Code prompt in terminal output"
+        },
+        "llmNotify.claudeOutputPattern": {
+          "type": "string",
+          "default": "(⏺|•)\\s",
+          "description": "Regex for Claude Code output in terminal output"
+        },
+        "llmNotify.claudeCompletePattern": {
+          "type": "string",
+          "default": "✻\\s+Worked\\s+for",
+          "description": "Regex for Claude Code completion marker in terminal output"
+        },
+        "llmNotify.debugTerminalData": {
+          "type": "boolean",
+          "default": false,
+          "description": "Log terminal data snippets to the LLM Notify output channel"
+        },
+        "llmNotify.claudeLogPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a Claude Code terminal log file to watch (fallback when terminal output events are unavailable)"
+        },
+        "llmNotify.claudeSsePort": {
+          "type": "number",
+          "default": 0,
+          "description": "Claude Code SSE port (from CLAUDE_CODE_SSE_PORT). If set, LLM Notify will use SSE events for accurate start/complete detection."
+        },
+        "llmNotify.codexSessionsDir": {
+          "type": "string",
+          "default": "",
+          "description": "Path to Codex sessions directory (defaults to ~/.codex/sessions). Used to detect Codex CLI and VS Code chat activity."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.7.1",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "llm-notify-hub",
+  "version": "1.0.0",
+  "description": "Unified notification hub for LLM interfaces - monitors Claude.ai, ChatGPT, Gemini, Grok, Claude Code, and Codex",
+  "main": "app.js",
+  "bin": {
+    "llm-notify-hub": "./app.js"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch server/index.js",
+    "build:mac": "pkg . --targets node18-macos-x64 --out-path .build/macos && ./scripts/build-macos-app.sh intel",
+    "build:mac-arm": "pkg . --targets node18-macos-arm64 --out-path .build/macos && ./scripts/build-macos-app.sh arm",
+    "build:win": "pkg . --targets node18-win-x64 --out-path .build/windows",
+    "build:linux": "pkg . --targets node18-linux-x64 --out-path .build/linux",
+    "package:mac": "npm run build:mac-arm && mkdir -p downloads && cd .build/macos && zip -r '../../downloads/LLM-Notify-Hub-Mac-ARM.zip' 'LLM Notify Hub.app'",
+    "package:mac-intel": "npm run build:mac && mkdir -p downloads && cd .build/macos && zip -r '../../downloads/LLM-Notify-Hub-Mac-Intel.zip' 'LLM Notify Hub.app'",
+    "package:win": "npm run build:win && mkdir -p downloads && cd .build/windows && zip -r '../../downloads/LLM-Notify-Hub-Windows.zip' 'llm-notify-hub.exe'",
+    "package:linux": "npm run build:linux && mkdir -p downloads && cd .build/linux && zip -r '../../downloads/LLM-Notify-Hub-Linux.zip' 'llm-notify-hub'",
+    "package:all": "npm run package:mac && npm run package:mac-intel && npm run package:win && npm run package:linux"
+  },
+  "pkg": {
+    "assets": [
+      "dashboard/**/*",
+      "server/**/*"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": ["llm", "notifications", "claude", "chatgpt", "gemini", "grok"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.16.0",
+    "node-notifier": "^10.0.1",
+    "open": "^10.0.3"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  }
+}

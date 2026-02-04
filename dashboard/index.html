@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>LLM Notify Hub</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔔</text></svg>">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <h1>LLM Notify Hub</h1>
+        </div>
+        <span class="subtitle">Unified notifications for all your AI assistants</span>
+      </div>
+      <div class="header-right">
+        <button id="theme-toggle" class="icon-btn" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <div class="connection-status" id="connection-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Connecting...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Alarm Banner -->
+    <div class="alarm-banner" id="alarm-banner">
+      <div class="alarm-content">
+        <svg class="alarm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span id="alarm-source">Alarm active</span>
+      </div>
+      <button class="dismiss-btn" id="dismiss-alarm">Dismiss</button>
+    </div>
+
+    <!-- Main Grid -->
+    <main class="main-grid">
+      <!-- Active Sessions -->
+      <section class="card sessions-card">
+        <h2 class="card-title">Active Sessions</h2>
+        <div class="sessions-grid" id="sessions-grid">
+          <!-- Sessions will be rendered here -->
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="card settings-card">
+        <h2 class="card-title">Settings</h2>
+
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-label">Enable Notifications</span>
+              <span class="setting-desc">Master switch for all notifications</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="enabled" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-label">Launch at Login</span>
+              <span class="setting-desc">Start automatically when you log in</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="launchAtLogin">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row schedule-row">
+            <div class="setting-info">
+              <span class="setting-label">Schedule</span>
+              <span class="setting-desc">Auto‑mute during quiet hours</span>
+            </div>
+            <div class="schedule-controls">
+              <label class="toggle toggle-sm">
+                <input type="checkbox" id="dndScheduleEnabled">
+                <span class="toggle-slider"></span>
+              </label>
+              <div class="time-range">
+                <input type="time" id="dndStart" value="22:00">
+                <span>→</span>
+                <input type="time" id="dndEnd" value="07:00">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h3 class="group-title">Notification Types</h3>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-label">Desktop Notifications</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="desktop" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-label">Sound</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="sound" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row sound-options" id="sound-options">
+            <div class="setting-info">
+              <span class="setting-label">Sound Preset</span>
+            </div>
+            <div class="sound-selector">
+              <select id="soundPreset">
+                <optgroup label="Gentle">
+                  <option value="chime">Chime</option>
+                  <option value="gentle-bell">Gentle Bell</option>
+                  <option value="calm-tone">Calm Tone</option>
+                  <option value="ping">Ping</option>
+                </optgroup>
+                <optgroup label="Standard">
+                  <option value="bell">Bell</option>
+                  <option value="notification">Notification</option>
+                  <option value="soft-alert">Soft Alert</option>
+                </optgroup>
+                <optgroup label="Attention-Grabbing">
+                  <option value="beep">Beep</option>
+                  <option value="digital">Digital</option>
+                  <option value="double-beep">Double Beep</option>
+                  <option value="ascending">Ascending</option>
+                  <option value="alert-urgent">Alert Urgent</option>
+                </optgroup>
+              </select>
+              <button class="preview-btn" id="preview-sound" title="Preview sound">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-row sound-options" id="volume-row">
+            <div class="setting-info">
+              <span class="setting-label">Volume</span>
+              <span class="setting-desc">Applies to sound + alarm</span>
+            </div>
+            <div class="slider-row">
+              <input type="range" id="volume" min="0" max="1" step="0.05">
+              <span class="slider-value" id="volume-value">50%</span>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-label">Persistent Alarm</span>
+              <span class="setting-desc">Loop sound until dismissed</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="alarm">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-actions">
+          <button class="btn btn-secondary" id="test-notification">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            Test Notification
+          </button>
+        </div>
+      </section>
+
+      <!-- Usage -->
+      <section class="card usage-card">
+        <div class="card-title-row">
+          <h2 class="card-title">Usage</h2>
+          <div class="usage-actions">
+            <div class="usage-range">
+              <button class="seg-btn" data-range="1">1h</button>
+              <button class="seg-btn" data-range="24">24h</button>
+              <button class="seg-btn" data-range="168">7d</button>
+              <button class="seg-btn" data-range="720">30d</button>
+            </div>
+            <button class="ghost-btn" id="reset-usage">Reset</button>
+            <button class="ghost-btn" id="toggle-usage">Collapse</button>
+          </div>
+        </div>
+        <div class="usage-chart">
+          <canvas id="usage-chart" height="140"></canvas>
+          <div class="usage-tooltip" id="usage-tooltip"></div>
+        </div>
+        <div class="usage-summary">
+          <div class="usage-summary-head">Summary</div>
+          <div class="usage-metrics" id="usage-metrics">
+            <!-- Filled in JS -->
+          </div>
+        </div>
+        <div class="usage-legend" id="usage-toggles">
+          <!-- Source toggles -->
+        </div>
+        <div class="usage-table" id="usage-table">
+          <!-- Filled in JS -->
+        </div>
+      </section>
+
+      <!-- Sources -->
+      <section class="card sources-card">
+        <h2 class="card-title">Sources</h2>
+        <div class="sources-list" id="sources-list">
+          <!-- Sources will be rendered here -->
+        </div>
+      </section>
+
+      <!-- Devices -->
+      <section class="card devices-card">
+        <h2 class="card-title">Devices</h2>
+        <div class="devices-list" id="devices-list">
+          <!-- Devices will be rendered here -->
+        </div>
+      </section>
+
+      <!-- Recent Completions -->
+      <section class="card completions-card" data-collapsible="true">
+        <div class="card-title-row">
+          <h2 class="card-title">Recent Completions</h2>
+          <button class="ghost-btn" id="toggle-history">Hide</button>
+        </div>
+        <div class="completions-list" id="completions-list">
+          <div class="empty-state">No completions yet</div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal" id="confirm-reset">
+      <div class="modal-card">
+        <div class="modal-title">Reset Usage Data</div>
+        <div class="modal-desc">This clears usage stats shown in the dashboard. This can’t be undone.</div>
+        <div class="modal-actions">
+          <button class="ghost-btn" id="cancel-reset">Cancel</button>
+          <button class="btn btn-primary" id="confirm-reset-btn">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>LLM Notify Hub v1.0.0</span>
+      <span class="separator">•</span>
+      <span id="uptime">Uptime: --</span>
+    </footer>
+  </div>
+
+  <!-- Audio Engine -->
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
