@@ -259,6 +259,17 @@ h1 {
   position: relative;
 }
 
+.demo-screen--static {
+  background: #0f1420;
+  min-height: auto;
+}
+
+.demo-screen--static img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .demo-overlay {
   position: absolute;
   inset: 0;

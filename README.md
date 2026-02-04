@@ -1,12 +1,3 @@
-```
- _     _     __  __   _   _   _   _        _   _    __      __
-| |   | |   |  \/  | | \ | | | \ | |      | | / /   \ \    / /
-| |   | |   | |\/| | |  \| | |  \| | _____| |/ /     \ \  / / 
-| |___| |___| |  | | | |\  | | |\  ||_____|   <       \ \/ /  
-|_____|_____|_|  |_| |_| \_| |_| \_|      |_|\_\       \__/   
-      1 0 1 1   N O T I F Y   H U B   //   C O D E X + C L A U D E
-```
-
 # LLM Notify Hub
 
 **Unified notification system for all your AI assistants** - monitors Claude.ai, ChatGPT, Gemini, Grok, Claude Code, and Codex from a single dashboard.
