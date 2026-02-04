@@ -12,9 +12,18 @@
 
 **Unified notification system for all your AI assistants** - monitors Claude.ai, ChatGPT, Gemini, Grok, Claude Code, and Codex from a single dashboard.
 
-> **Website:** https://llmnotify.app (placeholder)
+> **Website:** https://adorobantu2008.github.io/llm-notify/
 
 LLM Notify also supports **custom LLMs** beyond the defaults. You can add your own sources in the dashboard and receive the same notifications.
+
+## Quick install (short + practical)
+
+- **Download the Hub** from the website and unzip it.
+- **macOS security**: if macOS blocks the app, go to **System Settings → Privacy & Security** and click **Open Anyway**.
+- **Chrome extension**: open `chrome://extensions`, enable **Developer mode**, then **Load unpacked** and select the `chrome-extension` folder.
+- **VS Code extension**: open VS Code → **Extensions** → **Install from VSIX…** and choose the `.vsix` file.
+
+LLM Notify is **open source**, so you can review every file. No data is sent to third‑party servers — everything runs locally.
 
 ## Architecture
 
