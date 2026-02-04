@@ -11,6 +11,10 @@
 
 **Unified notification system for all your AI assistants** - monitors Claude.ai, ChatGPT, Gemini, Grok, Claude Code, and Codex from a single dashboard.
 
+> **Website:** https://llmnotify.app (placeholder)
+
+LLM Notify also supports **custom LLMs** beyond the defaults. You can add your own sources in the dashboard and receive the same notifications.
+
 ## Architecture
 
 ```
@@ -158,21 +162,6 @@ curl -X POST http://localhost:3847/api/event \
   -H "Content-Type: application/json" \
   -d '{"source": "claude-code", "status": "complete"}'
 ```
-
-### Manual Triggers (when auto-detection doesn't work)
-```bash
-# Mark as "generating" (started)
-curl -X POST http://localhost:3847/api/trigger/start \
-  -H "Content-Type: application/json" \
-  -d '{"source": "claude-code"}'
-
-# Mark as "complete" (triggers notification)
-curl -X POST http://localhost:3847/api/trigger/complete \
-  -H "Content-Type: application/json" \
-  -d '{"source": "claude-code"}'
-```
-
-You can create keyboard shortcuts (via Raycast, Alfred, Automator, etc.) to call these endpoints.
 
 ### Get Current State
 ```bash
